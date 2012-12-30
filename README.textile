@@ -6,8 +6,8 @@ Velma solve this problem because it replaces the stored password on disk with a 
 
 h1. Download
 
-* ["tar.gz":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.tar.gz]
-* ["zip":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.zip]
+* ("tar.gz":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.tar.gz)
+* ("zip":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.zip)
 
 h1. Usage
 
