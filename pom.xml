@@ -240,7 +240,7 @@
 
     <scm>
         <connection>scm:git:git@github.com:echocat/velma.git</connection>
-        <developerConnection>scm:svn:git@github.com:echocat/velma.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:echocat/velma.git</developerConnection>
         <url>https://github.com/echocat/velma</url>
     </scm>
 
