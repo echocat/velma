@@ -6,11 +6,15 @@ Velma solve this problem because it replaces the stored password on disk with a 
 
 h1. Download
 
-* ("tar.gz":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.tar.gz)
-* ("zip":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.zip)
+* "Latest tar.gz":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.tar.gz
+* "Latest zip":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.zip
 
 h1. Usage
 
 | Unix based systems | Run @bin/velma@ |
-| Windows | Run @bin/velma.exe@ |
-| Wnndows x64 | Run @bin/velma64.exe@ |
+| Windows | Run @bin\velma.exe@ |
+| Wnndows x64 | Run @bin\velma64.exe@ |
+
+h1. Requirements
+
+Java 1.7 or newer.
