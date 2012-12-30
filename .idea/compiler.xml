@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerAPISettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.7" />
+    <option name="MAXIMUM_HEAP_SIZE" value="256" />
+  </component>
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Javac" />
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/advancedruntime/target/generated-sources/annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/advancedruntime/target/generated-test-sources/test-annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/compilerplugin/target/generated-sources/annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/compilerplugin/target/generated-test-sources/test-annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/sun/target/generated-sources/annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/sun/target/generated-test-sources/test-annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/common/target/generated-sources/annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/common/target/generated-test-sources/test-annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/runtime/target/generated-sources/annotations" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/runtime/target/generated-test-sources/test-annotations" includeSubdirectories="true" />
+    </excludeFromCompile>
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="?*.properties" />
+      <entry name="?*.xml" />
+      <entry name="?*.gif" />
+      <entry name="?*.png" />
+      <entry name="?*.jpeg" />
+      <entry name="?*.jpg" />
+      <entry name="?*.html" />
+      <entry name="?*.dtd" />
+      <entry name="?*.tld" />
+      <entry name="?*.ftl" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="carbon" />
+        <module name="jmx" />
+        <module name="org.echocat.jemoni.carbon" />
+        <module name="org.echocat.jemoni.jmx" />
+        <module name="org.echocat.redprecursor.advancedruntime" />
+        <module name="org.echocat.redprecursor.common" />
+        <module name="org.echocat.redprecursor.compilerplugin" />
+        <module name="org.echocat.redprecursor.runtime" />
+        <module name="org.echocat.redprecursor.sun" />
+        <module name="org.echocat.velma" />
+        <module name="velma" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="carbon" target="1.7" />
+      <module name="jemoni" target="1.7" />
+      <module name="jmx" target="1.7" />
+      <module name="org.echocat.jemoni" target="1.7" />
+      <module name="org.echocat.jemoni.carbon" target="1.7" />
+      <module name="org.echocat.jemoni.jmx" target="1.7" />
+      <module name="org.echocat.redprecursor" target="1.6" />
+      <module name="org.echocat.redprecursor.advancedruntime" target="1.6" />
+      <module name="org.echocat.redprecursor.common" target="1.6" />
+      <module name="org.echocat.redprecursor.compilerplugin" target="1.6" />
+      <module name="org.echocat.redprecursor.runtime" target="1.6" />
+      <module name="org.echocat.redprecursor.sun" target="1.6" />
+      <module name="org.echocat.velma" target="1.7" />
+      <module name="velma" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="MAXIMUM_HEAP_SIZE" value="256" />
+  </component>
+</project>
+
