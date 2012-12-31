@@ -9,12 +9,110 @@ h1. Download
 * "Latest tar.gz":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.tar.gz
 * "Latest zip":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.zip
 
+h1. Requirements
+
+Java 1.7 or newer.
+
 h1. Usage
+
+h2. Run
 
 | Unix based systems | Run @bin/velma@ |
 | Windows | Run @bin\velma.exe@ |
 | Wnndows x64 | Run @bin\velma64.exe@ |
 
-h1. Requirements
+h2. First run
 
-Java 1.7 or newer.
+If the Velma starts the first time, it will request the enter of your master password. You can choose whatever you want, but remember: This is the password which will protect all your other passwords. Hint: Choose a password which is a passphrase; with a minimum length of 12 characters.
+
+h2. Encrypt a password
+
+h3. Store password without encryption
+
+Normally you have a @.m2/settings.xml@ like this:
+
+bc. <settings xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+   ...
+   <servers>
+      <server>
+         <id>myServer</id>
+         <username>myUsername</username>
+         <password>myPassword</password>
+      </server>
+   </servers>
+   ...
+</settings>
+
+h3. Standard encryption method
+
+It is possible to encrypt the passwords by using a master password in @.m2/settings-security.xml@. In this case your @settings.xml@ could be:
+
+bc. <settings xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+   ...
+   <servers>
+      <server>
+         <id>myServer</id>
+         <username>myUsername</username>
+         <password>{COQLCE6DU6GtcS5P=}</password>
+      </server>
+   </servers>
+   ...
+</settings>
+
+And your @settings-security.xml@:
+
+bc. <settingsSecurity>
+   <master>{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}</master>
+</settingsSecurity>
+
+"This is the default maven encryption pattern.":http://maven.apache.org/guides/mini/guide-encryption.html
+
+h3. Velma encryption
+
+# Right-Click on the Velma-SystrayIcon and choose _Encrypt password_.
+# Enter your master password.
+# In the following dialog (_Encrypt password_) enter the plain password for the target server twice.
+# Hit _Copy to clipboard and close_. The encrypted password is now stored in your system clipboard.
+# Now open your @.m2/settings.xml@ and put your encrypted password in @<password>...</password>@ tag for the target server.
+
+_You are not required to modify @.m2/settings-security.xml@. This is automatically done by Velma._
+
+The result @.m2/settings.xml@ are like the as the _Standard encryption method_ but your @.m2/settings-security.xml@ is different and *does not contain your master password*.
+
+h1. FAQ
+
+h2. What to do if I want to choose my master password?
+
+# Right-Click on the Velma-SystrayIcon and choose _Change master password_.
+# Enter your current master password.
+# Enter your new master password twice.
+# Now you are required to reencrypt all your passwords with the _Encrypt password_ util.
+Sorry but we planned to change this passwords automatically in the future if you change your master password. But currently you are required you do this manually for all servers.
+
+h2. I lost my master password
+
+This is bat! All your encrypted passwords are lost.
+
+But you could delete @.m2/velma.properties@, choose a new master password and reencrypt all your passwords.
+
+h1. Secrets
+
+h2. Configuration
+
+Velma store all its information in @.m2/velma.properites@.
+
+It is a good choice to backup always @.m2/settings.xml@ with @.m2/velma.properties@.
+
+h2. How maven get the master password?
+
+Velma created at every start a new @.m2/settings-security.xml@ with a content like this:
+
+bc. <settingsSecurity>
+  <relocation>http://localhost:56276/3ee63610-adf1-4169-a029-5f96c575800f/settings-security.xml</relocation>
+</settingsSecurity>
+
+Velma now starts a little webserver that listen to @localhost:<port>@ and only answer questions to the specified URL. If another URL is requested or the user hit in the _Master-Password request dialog_ the button _Fake response_ the result is also a valid master password - but an invalid one.
