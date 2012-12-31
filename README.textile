@@ -131,3 +131,7 @@ bc. <settingsSecurity>
 </settingsSecurity>
 
 Velma now starts a little webserver that listen to @localhost:<port>@ and only answer questions to the specified URL. If another URL is requested or the user hit in the _Master-Password request dialog_ the button _Fake response_ the result is also a valid master password - but an invalid one.
+
+h1. License
+
+echocat Velma is licensed under "MPL 2.0":http://mozilla.org/MPL/2.0/.
