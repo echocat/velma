@@ -1,0 +1,137 @@
+h1. echocat Velma
+
+...is a Master-Password protected password safe for your maven passwords. These passwords are normally stored in @.m2/settings.xml@ and could be protected by a master password in @.m2/settings-security.xml@. But this way is still dangerous because every person with access to your computer has access to your Master-Password.
+
+Velma solve this problem because it replaces the stored password on disk with a redirection to itself. In every moment if someone tries to access your passwords in @.m2/settings.xml@ Velma will recieve a request and will prompt you for the input of your Master-Password in a dedicated dialog.
+
+h1. Setup
+
+h2. Unix like Systems
+
+bc. # 1. Create a directory for velma
+mkdir -p ~/opt/velma
+# 2. Change into the new directory
+cd ~/opt/velma
+# 3. Download the latest release
+wget https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.tar.gz
+# 4. Extract the content 
+tar -xzf velma-*-distribution.tar.gz
+# 5. Run it
+~/opt/velma/bin/velma
+
+Hint: It is a good choice to add Velma to init scripts of your unix system to ensure that you never forget it. Velma have a maximum memory usage of 10M - no problem I hope.
+
+h2. Windows Systems
+
+# Download the "Latest zip":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.zip
+# Extract the content to @%USERPROFILE%\Program Files\velma@
+# Open @%USERPROFILE%\Program Files\velma\bin@ in the Explorer
+# Create a shortcut on Desktop, Taskbar or Startmenu for @velma.exe@ (for 32bit Windows) or for @velma64.exe@ (for 64bit Windows).
+
+Hint: It is a good choice to add Velma to _Startup_ of Windows to ensure that you never forget it. Velma have a maximum memory usage of 10M - no problem I hope.
+
+h2. Requirements
+
+Java 1.7 or newer: "Get the latest version.":http://java.com/download/index.jsp
+
+h1. Usage
+
+h2. First run
+
+If the Velma starts the first time, it will request the enter of your master password. You can choose whatever you want, but remember: This is the password which will protect all your other passwords. Hint: Choose a password which is a passphrase; with a minimum length of 12 characters.
+
+h2. Encrypt a password
+
+h3. Store password without encryption
+
+Normally you have a @.m2/settings.xml@ like this:
+
+bc. <settings xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+   ...
+   <servers>
+      <server>
+         <id>myServer</id>
+         <username>myUsername</username>
+         <password>myPassword</password>
+      </server>
+   </servers>
+   ...
+</settings>
+
+h3. Standard encryption method
+
+It is possible to encrypt the passwords by using a master password in @.m2/settings-security.xml@. In this case your @settings.xml@ could be:
+
+bc. <settings xmlns="http://maven.apache.org/POM/4.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+   ...
+   <servers>
+      <server>
+         <id>myServer</id>
+         <username>myUsername</username>
+         <password>{COQLCE6DU6GtcS5P=}</password>
+      </server>
+   </servers>
+   ...
+</settings>
+
+And your @settings-security.xml@:
+
+bc. <settingsSecurity>
+   <master>{jSMOWnoPFgsHVpMvz5VrIt5kRbzGpI8u+9EF1iFQyJQ=}</master>
+</settingsSecurity>
+
+"This is the default maven encryption pattern.":http://maven.apache.org/guides/mini/guide-encryption.html
+
+h3. Velma encryption
+
+# Right-Click on the Velma-SystrayIcon and choose _Encrypt password_.
+# Enter your master password.
+# In the following dialog (_Encrypt password_) enter the plain password for the target server twice.
+# Hit _Copy to clipboard and close_. The encrypted password is now stored in your system clipboard.
+# Now open your @.m2/settings.xml@ and put your encrypted password in @<password>...</password>@ tag for the target server.
+
+_You are not required to modify @.m2/settings-security.xml@. This is automatically done by Velma._
+
+The result @.m2/settings.xml@ are like the as the _Standard encryption method_ but your @.m2/settings-security.xml@ is different and *does not contain your master password*.
+
+h1. FAQ
+
+h2. What to do if I want to choose my master password?
+
+# Right-Click on the Velma-SystrayIcon and choose _Change master password_.
+# Enter your current master password.
+# Enter your new master password twice.
+# Now you are required to reencrypt all your passwords with the _Encrypt password_ util.
+Sorry but we planned to change this passwords automatically in the future if you change your master password. But currently you are required you do this manually for all servers.
+
+h2. I lost my master password
+
+This is bat! All your encrypted passwords are lost.
+
+But you could delete @.m2/velma.properties@, choose a new master password and reencrypt all your passwords.
+
+h1. Secrets
+
+h2. Configuration
+
+Velma store all its information in @.m2/velma.properites@.
+
+It is a good choice to backup always @.m2/settings.xml@ with @.m2/velma.properties@.
+
+h2. How maven get the master password?
+
+Velma created at every start a new @.m2/settings-security.xml@ with a content like this:
+
+bc. <settingsSecurity>
+  <relocation>http://localhost:56276/3ee63610-adf1-4169-a029-5f96c575800f/settings-security.xml</relocation>
+</settingsSecurity>
+
+Velma now starts a little webserver that listen to @localhost:<port>@ and only answer questions to the specified URL. If another URL is requested or the user hit in the _Master-Password request dialog_ the button _Fake response_ the result is also a valid master password - but an invalid one.
+
+h1. License
+
+echocat Velma is licensed under "MPL 2.0":http://mozilla.org/MPL/2.0/.
