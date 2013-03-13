@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ **** BEGIN LICENSE BLOCK *****
+  ~
+  ~ Version: MPL 2.0
+  ~
+  ~ echocat Velma, Copyright (c) 2011-2013 echocat
+  ~
+  ~ This Source Code Form is subject to the terms of the Mozilla Public
+  ~ License, v. 2.0. If a copy of the MPL was not distributed with this
+  ~ file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  ~
+  ~ **** END LICENSE BLOCK *****
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+        >
+
+    <Product Id="*" UpgradeCode="A327AE64-DCD3-4391-0001-D13AECBEF000" Name="$(var.productName)" Version="1.0.0" Manufacturer="$(var.organizationName)" Language="1033">
+        <Package InstallerVersion="200" Compressed="yes" AdminImage="no" ShortNames="no" Description="$(var.productDescription)" Manufacturer="$(var.organizationName)" Keywords="maven security java" />
+
+        <Media Id="1" Cabinet="velma.cab" EmbedCab="yes" />
+        <Icon Id="ProductIcon" SourceFile="$(var.exeFiles)\bin\velma.exe" />
+        <Icon Id="velma.exe" SourceFile="$(var.exeFiles)\bin\velma.exe" />
+        <Property Id="ARPPRODUCTICON" Value="ProductIcon"/>
+        <Property Id="ARPHELPLINK" Value="$(var.productUrl)"/>
+        <Property Id="ARPURLINFOABOUT" Value="$(var.productUrl)"/>
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR"/>
+        <Property Id="ALLUSERS" Value="1" />
+
+        <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+        <WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
+        <WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+
+        <UI>
+            <UIRef Id="WixUI_InstallDir" />
+        </UI>
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="ManufacturerProgramFilesFolder" Name="$(var.organizationName)">
+                    <Directory Id="INSTALLDIR" Name="$(var.productShortName)">
+                        <Directory Id="bin" Name="bin">
+                            <Component Id="ApplicationShortcuts32" Guid="A327AE64-DCD3-4391-0001-D13AECBEF002">
+                                <Condition><![CDATA[NOT(VersionNT64)]]></Condition>
+                                <File Id="velmaExe32" Name="velma.exe" KeyPath="yes" Source="$(var.exeFiles)\bin\velma.exe">
+                                    <Shortcut Id="velmaExeShortcut32" Directory="ApplicationProgramsFolder" Name="$(var.productShortName)" WorkingDirectory="bin" Advertise="yes" Icon="velma.exe" IconIndex="0" />
+                                </File>
+                                <File Id="velmaExeVmOptions32" Name="velma.exe.vmoptions" Source="$(var.exeFiles)\bin\velma.exe.vmoptions" />
+
+                                <RegistryValue Id="InstalledRegKey32" Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Run" Name="$(var.productName)" Type="string" Value="[bin]velma.exe" />
+                                <RemoveFolder Id="RemoveApplicationProgramsFolder32" On="uninstall"  Property="ApplicationProgramsFolder" />
+                                <RemoveFolder Id="RemoveManufacturerProgramsMenuFolder32" On="uninstall" Property="ManufacturerProgramsMenuFolder" />
+                            </Component>
+                            <Component Id="ApplicationShortcuts64" Guid="A327AE64-DCD3-4391-0001-D13AECBEF003">
+                                <Condition><![CDATA[VersionNT64]]></Condition>
+                                <File Id="velmaExe64" Name="velma.exe" KeyPath="yes" Source="$(var.exeFiles)\bin\velma64.exe">
+                                    <Shortcut Id="velmaExeShortcut64" Directory="ApplicationProgramsFolder" Name="$(var.productShortName)" WorkingDirectory="bin" Advertise="yes" Icon="velma.exe" IconIndex="0" />
+                                </File>
+                                <File Id="velmaExeVmOptions64" Name="velma.exe.vmoptions" Source="$(var.exeFiles)\bin\velma64.exe.vmoptions" />
+
+                                <RegistryValue Id="InstalledRegKey64" Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Run" Name="$(var.productName)" Type="string" Value="[bin]velma.exe" />
+                                <RemoveFolder Id="RemoveApplicationProgramsFolder64" On="uninstall"  Property="ApplicationProgramsFolder" />
+                                <RemoveFolder Id="RemoveManufacturerProgramsMenuFolder64" On="uninstall" Property="ManufacturerProgramsMenuFolder" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="ProgramMenuFolder" Name="Programs">
+                <Directory Id="ManufacturerProgramsMenuFolder" Name="$(var.organizationName)">
+                    <Directory Id="ApplicationProgramsFolder" Name="$(var.productShortName)" />
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature Id="DefaultFeature" Level="1" Title="Main Application">
+            <ComponentGroupRef Id="DistributionFiles" />
+            <ComponentRef Id="ApplicationShortcuts32" />
+            <ComponentRef Id="ApplicationShortcuts64" />
+        </Feature>
+
+    </Product>
+</Wix>

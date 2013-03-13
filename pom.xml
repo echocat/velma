@@ -22,6 +22,7 @@
     <artifactId>velma</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <url>https://velma.echocat.org</url>
+    <description>Master-Password protected password safe for Maven.</description>
 
     <licenses>
         <license>
@@ -36,6 +37,7 @@
     </organization>
 
     <properties>
+        <project.shortName>Velma</project.shortName>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.basePackages>${project.groupId}.${project.artifactId}</project.build.basePackages>
@@ -193,6 +195,38 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>createMsiPackage</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.gmaven</groupId>
+                        <artifactId>gmaven-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>createMsiPackage</id>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <source>${basedir}/src/main/assemble/installers/windows/make.groovy</source>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <issueManagement>
         <system>GitHub</system>
