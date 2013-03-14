@@ -122,7 +122,7 @@ if [ -z "${JAVA_HOME}" ] ; then
     echo "Warning: JAVA_HOME environment variable is not set."
 fi
 
-LAUNCHER=net.motortalk.development.maven.velma.Boot
+LAUNCHER=org.echocat.velma.Boot
 
 # For Cygwin, switch paths to Windows format before running java
 if ${cygwin}; then

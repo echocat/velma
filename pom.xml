@@ -42,6 +42,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.basePackages>${project.groupId}.${project.artifactId}</project.build.basePackages>
 
+        <maven.rpm.install.dir>${basedir}/target</maven.rpm.install.dir>
+        <maven.rpm.license>MPL2</maven.rpm.license>
+
         <versions.org.echocat.jomon>1.1.0</versions.org.echocat.jomon>
         <versions.org.eclipse.jetty>8.1.7.v20120910</versions.org.eclipse.jetty>
     </properties>
@@ -197,6 +200,118 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>createRpmPackage</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>rpm-maven-plugin</artifactId>
+                        <version>2.1-alpha-2</version>
+                        <executions>
+                            <execution>
+                                <id>tagLinuxInstallers</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>version</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>createLinuxInstallers</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>rpm</goal>
+                                </goals>
+                                <configuration>
+                                    <copyright>MPL2</copyright>
+                                    <distribution>${project.name}</distribution>
+                                    <group>Development/Tools</group>
+                                    <icon>src/main/assemble/logo.gif</icon>
+                                    <packager>${project.organization.name}</packager>
+                                    <url>${project.url}</url>
+                                    <vendor>${project.organization.name}</vendor>
+                                    <targetOS>linux</targetOS>
+                                    <mappings>
+                                        <mapping>
+                                            <directory>/opt/${project.organization.name}/${project.artifactId}</directory>
+                                            <filemode>644</filemode>
+                                            <username>root</username>
+                                            <groupname>root</groupname>
+                                            <sources>
+                                                <source>
+                                                    <location>src/main/distribution</location>
+                                                    <excludes>
+                                                        <exclude>bin/*.exe*</exclude>
+                                                    </excludes>
+                                                </source>
+                                            </sources>
+                                        </mapping>
+                                        <mapping>
+                                            <directory>/opt/${project.organization.name}/${project.artifactId}/bin</directory>
+                                            <filemode>755</filemode>
+                                            <username>root</username>
+                                            <groupname>root</groupname>
+                                            <sources>
+                                                <source>
+                                                    <location>src/main/distribution/bin</location>
+                                                    <includes>
+                                                        <include>velma</include>
+                                                    </includes>
+                                                </source>
+                                            </sources>
+                                        </mapping>
+                                        <mapping>
+                                            <directory>/opt/${project.organization.name}/${project.artifactId}/lib</directory>
+                                            <filemode>644</filemode>
+                                            <username>root</username>
+                                            <groupname>root</groupname>
+                                            <sources>
+                                                <source>
+                                                    <location>target</location>
+                                                    <includes>
+                                                        <include>${project.artifactId}-${project.version}.jar</include>
+                                                    </includes>
+                                                </source>
+                                            </sources>
+                                        </mapping>
+                                        <mapping>
+                                            <directory>/opt/${project.organization.name}/${project.artifactId}/lib</directory>
+                                            <filemode>644</filemode>
+                                            <username>root</username>
+                                            <groupname>root</groupname>
+                                            <dependency></dependency>
+                                        </mapping>
+                                    </mappings>
+                                    <preinstallScriptlet>
+                                        <script>echo "installing now"</script>
+                                    </preinstallScriptlet>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.gmaven</groupId>
+                        <artifactId>gmaven-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>postProcessRpmPackage</id>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <source>${basedir}/src/main/assemble/installers/linuxrpm/postMake.groovy</source>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>createMsiPackage</id>
             <activation>

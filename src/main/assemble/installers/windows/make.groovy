@@ -103,14 +103,16 @@ exeFilesDirectory.mkdirs();
 
 log.info("Prepare files in: ${filesDirectory}")
 ant.delete(dir: filesDirectory.getCanonicalPath(), quiet: "true");
-ant.unzip(src: new File(buildDirectory, project.artifactId + "-" + project.version + "-distribution.zip").getCanonicalPath(),
+ant.untar(src: new File(buildDirectory, project.artifactId + "-" + project.version + "-distribution.tar.gz").getCanonicalPath(),
+        compression: "gzip",
         dest: filesDirectory.getCanonicalPath(),
         overwrite: "true") {
         patternset() {
             exclude(name: "bin/velma*.exe*")
         }};
 ant.delete(dir: exeFilesDirectory.getCanonicalPath(), quiet: "true");
-ant.unzip(src: new File(buildDirectory, project.artifactId + "-" + project.version + "-distribution.zip").getCanonicalPath(),
+ant.untar(src: new File(buildDirectory, project.artifactId + "-" + project.version + "-distribution.tar.gz").getCanonicalPath(),
+        compression: "gzip",
         dest: exeFilesDirectory.getCanonicalPath(),
         overwrite: "true") {
         patternset() {
@@ -165,5 +167,5 @@ execute((String[]) [
         "-out", "${buildDirectory}\\${project.artifactId}-${project.version}-distribution.msi"
 ], baseDirectory);
 
-log.info("MSI created: ${buildDirectory}\\velma.msi")
-log.info("")
+log.info("MSI created: ${buildDirectory}\\velma.msi");
+log.info("");
