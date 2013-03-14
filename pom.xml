@@ -286,8 +286,11 @@
                                         </mapping>
                                     </mappings>
                                     <preinstallScriptlet>
-                                        <script>echo "installing now"</script>
+                                        <script>echo 'export PATH="$PATH:/opt/${project.organization.name}/${project.artifactId}/bin"' > /etc/profile.d/${project.organization.name}-${project.artifactId}.sh; chmod +x /etc/profile.d/${project.organization.name}-${project.artifactId}.sh</script>
                                     </preinstallScriptlet>
+                                    <postremoveScriptlet>
+                                        <script>rm -rf /opt/${project.organization.name}/${project.artifactId}; rm -f /etc/profile.d/${project.organization.name}-${project.artifactId}.sh</script>
+                                    </postremoveScriptlet>
                                 </configuration>
                             </execution>
                         </executions>

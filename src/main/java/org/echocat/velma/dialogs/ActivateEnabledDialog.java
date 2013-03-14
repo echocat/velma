@@ -34,7 +34,7 @@ public abstract class ActivateEnabledDialog extends JDialog {
 
     protected ActivateEnabledDialog(@Nonnull Resources resources, @Nonnull String titleKey) {
         _resources = resources;
-
+        setContentPane(createContainer());
         setTitle(resources.getString(titleKey));
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         registerRootKeyStrokes();
@@ -44,7 +44,11 @@ public abstract class ActivateEnabledDialog extends JDialog {
         setModalityType(APPLICATION_MODAL);
         setBackground(window);
         setAlwaysOnTop(true);
+    }
 
+    @Nonnull
+    protected Container createContainer() {
+        return new JPanel();
     }
 
     public void activate() {

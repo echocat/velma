@@ -27,8 +27,8 @@ import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -38,7 +38,8 @@ import static java.awt.Desktop.getDesktop;
 import static java.awt.Desktop.isDesktopSupported;
 import static java.awt.Font.DIALOG;
 import static java.awt.Font.PLAIN;
-import static java.awt.SystemColor.control;
+import static java.awt.RenderingHints.*;
+import static javax.imageio.ImageIO.read;
 import static javax.swing.event.HyperlinkEvent.EventType.ACTIVATED;
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -46,11 +47,56 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class AboutDialog extends ActivateEnabledDialog {
 
     private static final Logger LOG = LoggerFactory.getLogger(AboutDialog.class);
+    private final BufferedImage _backgroundImage;
 
     public AboutDialog(@Nonnull Resources resources) {
         super(resources, "aboutTitle");
+        try {
+            _backgroundImage = read(getClass().getResource("background.png"));
+        } catch (IOException e) {
+            throw new RuntimeException("Could not load background image.", e);
+        }
         createIntroduction(resources);
         createButtonBar(resources);
+    }
+
+    @Nonnull
+    @Override
+    protected Container createContainer() {
+        return new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                final Graphics2D g2d = (Graphics2D) g;
+                final Dimension size = getSize();
+                g2d.setRenderingHint(KEY_INTERPOLATION, VALUE_INTERPOLATION_BILINEAR);
+                g2d.setRenderingHint(KEY_RENDERING, VALUE_RENDER_QUALITY);
+                g2d.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+                final double sourceWidth = _backgroundImage.getWidth();
+                final double sourceHeight = _backgroundImage.getHeight();
+                final double targetWidth = size.getWidth();
+                final double targetHeight = size.getHeight();
+                final double relWidth = sourceWidth / targetWidth;
+                final double relHeight = sourceHeight / targetHeight;
+                final double width;
+                final double height;
+                final double x;
+                final double y;
+                if (relWidth > relHeight) {
+                    width = sourceWidth / relHeight;
+                    height = sourceHeight / relHeight;
+                    x = ((targetWidth - width) / 2);
+                    y = 0;
+                } else {
+                    width = sourceWidth / relWidth;
+                    height = sourceHeight / relWidth;
+                    x = 0;
+                    y = ((targetHeight - height) / 2);
+                }
+
+                g2d.drawImage(_backgroundImage, (int) x, (int) y, (int) width, (int) height, this);
+            }
+        };
     }
 
     @Override
@@ -101,7 +147,7 @@ public class AboutDialog extends ActivateEnabledDialog {
         text.setContentType("text/html");
         text.setText(body.toString());
         text.setFont(new Font(DIALOG, PLAIN, 12));
-        text.setBackground(control);
+        text.setBackground(new Color(255, 255, 255, 0));
         text.setEditable(false);
         text.addHyperlinkListener(new HyperlinkListener() {
             @Override
@@ -117,10 +163,16 @@ public class AboutDialog extends ActivateEnabledDialog {
                     } else {
                         LOG.error("Could not open " + e.getURL() + " because browse is not supported by desktop.");
                     }
-                } else {
-                    LOG.error("Could not open " + e.getURL() + " because desktop is not by JVM.");
                 }
+                repaint();
             }
+        });
+        text.addMouseListener(new MouseListener() {
+            @Override public void mouseClicked(MouseEvent e) { repaint(); }
+            @Override public void mousePressed(MouseEvent e) { repaint(); }
+            @Override public void mouseReleased(MouseEvent e) { repaint(); }
+            @Override public void mouseEntered(MouseEvent e) { repaint(); }
+            @Override public void mouseExited(MouseEvent e) { repaint(); }
         });
         add(text, new CC().spanX(2).growX().minWidth("10px"));
     }
