@@ -278,6 +278,17 @@
                                             </sources>
                                         </mapping>
                                         <mapping>
+                                            <directory>/opt/${project.organization.name}/${project.artifactId}/share/integration</directory>
+                                            <filemode>644</filemode>
+                                            <username>root</username>
+                                            <groupname>root</groupname>
+                                            <sources>
+                                                <source>
+                                                    <location>target/linux/files</location>
+                                                </source>
+                                            </sources>
+                                        </mapping>
+                                        <mapping>
                                             <directory>/opt/${project.organization.name}/${project.artifactId}/lib</directory>
                                             <filemode>644</filemode>
                                             <username>root</username>
@@ -285,11 +296,20 @@
                                             <dependency></dependency>
                                         </mapping>
                                     </mappings>
-                                    <preinstallScriptlet>
-                                        <script>echo 'export PATH="$PATH:/opt/${project.organization.name}/${project.artifactId}/bin"' > /etc/profile.d/${project.organization.name}-${project.artifactId}.sh; chmod +x /etc/profile.d/${project.organization.name}-${project.artifactId}.sh</script>
-                                    </preinstallScriptlet>
+                                    <postinstallScriptlet>
+                                        <script>
+                                            cp "/opt/${project.organization.name}/${project.artifactId}/share/integration/profile.d.sh" /etc/profile.d/${project.organization.name}-${project.artifactId}.sh
+                                            chmod +x "/etc/profile.d/${project.organization.name}-${project.artifactId}.sh"
+                                            cp "/opt/${project.organization.name}/${project.artifactId}/share/integration/application.desktop" "/usr/share/applications/${project.organization.name}-${project.artifactId}.desktop"
+                                            cp "/opt/${project.organization.name}/${project.artifactId}/share/integration/application.desktop" "/etc/xdg/autostart/${project.organization.name}-${project.artifactId}.desktop"
+                                        </script>
+                                    </postinstallScriptlet>
                                     <postremoveScriptlet>
-                                        <script>rm -rf /opt/${project.organization.name}/${project.artifactId}; rm -f /etc/profile.d/${project.organization.name}-${project.artifactId}.sh</script>
+                                        <script>
+                                            rm -rf "/opt/${project.organization.name}/${project.artifactId}"
+                                            rm -f "/etc/profile.d/${project.organization.name}-${project.artifactId}.sh"
+                                            rm -f "/usr/share/applications/${project.organization.name}-${project.artifactId}.desktop"
+                                        </script>
                                     </postremoveScriptlet>
                                 </configuration>
                             </execution>
@@ -301,13 +321,23 @@
                         <version>1.4</version>
                         <executions>
                             <execution>
+                                <id>preProcessRpmPackage</id>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <source>${basedir}/src/main/assemble/installers/linux/preMake.groovy</source>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>postProcessRpmPackage</id>
                                 <goals>
                                     <goal>execute</goal>
                                 </goals>
                                 <phase>package</phase>
                                 <configuration>
-                                    <source>${basedir}/src/main/assemble/installers/linuxrpm/postMake.groovy</source>
+                                    <source>${basedir}/src/main/assemble/installers/linux/postMake.rpm.groovy</source>
                                 </configuration>
                             </execution>
                         </executions>

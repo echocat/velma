@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=@name@
+Comment=@description@
+Icon=/opt/@organization.name@/@artifactId@/bin/@artifactId@.png
+Exec=/opt/@organization.name@/@artifactId@/bin/@artifactId@
+Terminal=false
+Categories=Development;
+X-Desktop-File-Install-Version=0.20
