@@ -16,9 +16,13 @@ h2. Download
 
 h2. Hint
 
+h3. General
+
+The installers (@msi@, @deb@ and @rpm@) will install register Velma in autostart of you window manager to ensure that Velma always run if you use Maven. 
+
 h3. Windows
 
-On 64bit Windows-Systems the x64 executable of velma is installed. This requires that the default Java is also x64.
+On 64bit Windows-Systems the x64 executable of Velma is installed. This requires that the default Java is also x64.
 
 h2. Requirements
 
