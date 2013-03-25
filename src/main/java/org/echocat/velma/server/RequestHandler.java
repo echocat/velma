@@ -14,7 +14,11 @@
 
 package org.echocat.velma.server;
 
+import org.echocat.jomon.process.Process;
 import org.echocat.velma.PasswordRequest;
+import org.echocat.velma.ProcessBasedPasswordRequest;
+import org.echocat.velma.Resources;
+import org.echocat.velma.UserAgentBasedPasswordRequest;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
@@ -33,10 +37,12 @@ public class RequestHandler extends AbstractHandler {
 
     private final Location _location;
     private final BodyCreator _bodyCreator;
+    private final Resources _resources;
 
-    public RequestHandler(@Nonnull Location location, @Nonnull BodyCreator bodyCreator) {
+    public RequestHandler(@Nonnull Location location, @Nonnull BodyCreator bodyCreator, @Nonnull Resources resources) {
         _location = location;
         _bodyCreator = bodyCreator;
+        _resources = resources;
     }
 
     @Override
@@ -57,7 +63,8 @@ public class RequestHandler extends AbstractHandler {
 
     @Nonnull
     private PasswordRequest toPasswordRequest(@Nonnull HttpServletRequest request) {
-        return new PasswordRequest(request.getHeader("User-Agent"), cacheable, password, fakePassword);
+        final Process process = _resources.getProcessDetector().findProcessOn(request.getRemoteAddr(), request.getRemotePort());
+        return process != null ? new ProcessBasedPasswordRequest(process, cacheable, password, fakePassword) : new UserAgentBasedPasswordRequest(request.getHeader("User-Agent"), cacheable, password, fakePassword);
     }
 }
 

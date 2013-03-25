@@ -22,7 +22,7 @@ import java.util.Set;
 import static java.util.Arrays.asList;
 import static org.echocat.velma.PasswordRequest.ResponseType.DEFAULT_RESPONSE_TYPES;
 
-public class PasswordRequest {
+public abstract class PasswordRequest {
     
     public enum ResponseType {
         password,
@@ -37,19 +37,12 @@ public class PasswordRequest {
         notCachable
     }
     
-    private final String _userAgent;
     private final CacheType _cacheType;
     private final Set<ResponseType> _responseTypes;
 
-    public PasswordRequest(@Nullable String userAgent, @Nonnull CacheType cacheType, @Nullable ResponseType... responseTypes) {
-        _userAgent = userAgent;
+    public PasswordRequest(@Nonnull CacheType cacheType, @Nullable ResponseType... responseTypes) {
         _cacheType = cacheType;
         _responseTypes = new HashSet<>(asList(responseTypes != null && responseTypes.length > 0 ? responseTypes : DEFAULT_RESPONSE_TYPES));
-    }
-
-    @Nullable
-    public String getUserAgent() {
-        return _userAgent;
     }
 
     @Nonnull
@@ -61,4 +54,8 @@ public class PasswordRequest {
     public Set<ResponseType> getResponseTypes() {
         return _responseTypes;
     }
+
+    @Nonnull
+    public abstract String formatRemoteAsHtml(@Nonnull Resources resources);
+
 }

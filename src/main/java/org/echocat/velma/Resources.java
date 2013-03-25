@@ -18,6 +18,7 @@ import org.echocat.jomon.runtime.ManifestInformationFactory;
 import org.echocat.jomon.runtime.i18n.RecursiveResourceBundleFactory;
 import org.echocat.jomon.runtime.i18n.ResourceBundles;
 import org.echocat.jomon.runtime.i18n.ResourceBundlesFactory;
+import org.echocat.velma.support.ProcessDetector;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
@@ -38,6 +39,7 @@ public class Resources {
 
     public static final String FALLBACK_APPLICATION_NAME = "echocat Velma";
 
+    private final ProcessDetector _processDetector = new ProcessDetector();
     private final ManifestInformationFactory _manifestInformationFactory;
     private final String _applicationName;
     private final String _version;
@@ -178,5 +180,10 @@ public class Resources {
     @Nonnull
     public String getFullApplicationName() {
         return _applicationName + (_version != null ? " " + _version : "");
+    }
+
+    @Nonnull
+    public ProcessDetector getProcessDetector() {
+        return _processDetector;
     }
 }

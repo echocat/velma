@@ -72,7 +72,7 @@ public class SetMasterPasswordDialog extends ActivateEnabledDialog {
         final String introduction = resources.getString(passwordStorage != null ? "changeMasterPasswordIntroduction" : "setInitialMasterPasswordIntroduction");
         text.setText("<html><body style='font-family: sans; font-size: 1em'>" + introduction + "</body></html>");
         text.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
-        text.setBackground(SystemColor.control);
+        text.setBackground(new Color(255, 255, 255, 0));
         text.setEditable(false);
         add(text, new CC().spanX(2).growX().minWidth("10px"));
     }
@@ -137,7 +137,7 @@ public class SetMasterPasswordDialog extends ActivateEnabledDialog {
     public void activate() {
         if (_passwordStorage != null) {
             final String userAgent = getResources().format("xDialog", getTitle());
-            final Password password = _passwordStorage.getPassword(new PasswordRequest(userAgent, notCachable));
+            final Password password = _passwordStorage.getPassword(new UserAgentBasedPasswordRequest(userAgent, notCachable));
             if (password != null) {
                 super.activate();
             }

@@ -18,10 +18,7 @@ import net.miginfocom.layout.AC;
 import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
-import org.echocat.velma.Password;
-import org.echocat.velma.PasswordRequest;
-import org.echocat.velma.PasswordStorage;
-import org.echocat.velma.Resources;
+import org.echocat.velma.*;
 
 import javax.annotation.Nonnull;
 import javax.swing.*;
@@ -76,7 +73,7 @@ public class PasswordEncryptionDialog extends ActivateEnabledDialog {
         text.setContentType("text/html");
         text.setText("<html><body style='font-family: sans; font-size: 1em'>" + resources.getString("passwordEncryptionIntroduction") + "</body></html>");
         text.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
-        text.setBackground(SystemColor.control);
+        text.setBackground(new Color(255, 255, 255, 0));
         text.setEditable(false);
         add(text, new CC().spanX(2).growX().minWidth("10px"));
     }
@@ -146,7 +143,7 @@ public class PasswordEncryptionDialog extends ActivateEnabledDialog {
     @Override
     public void activate() {
         final String userAgent = getResources().format("xDialog", getTitle());
-        _masterPassword = _passwordStorage.getPassword(new PasswordRequest(userAgent, notCachable));
+        _masterPassword = _passwordStorage.getPassword(new UserAgentBasedPasswordRequest(userAgent, notCachable));
         if (_masterPassword != null) {
             _passwordField.requestFocusInWindow();
             checkPasswords();

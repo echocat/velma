@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class PasswordStorage {
 
-    private final Map<String, Password> _userAgentToPassword = new HashMap<>();
+    private final Map<PasswordRequest, Password> _userAgentToPassword = new HashMap<>();
     private final Resources _resources;
     private final Configuration _configuration;
 
@@ -37,10 +37,10 @@ public class PasswordStorage {
     @Nullable
     public Password getPassword(@Nonnull PasswordRequest request) {
         synchronized (this) {
-            Password password = _userAgentToPassword.get(request.getUserAgent());
+            Password password = _userAgentToPassword.get(request);
             if (password == null || password.isStillValid()) {
                 password = getNewPassword(request);
-                _userAgentToPassword.put(request.getUserAgent(), password);
+                _userAgentToPassword.put(request, password);
             }
             return password;
         }
@@ -50,7 +50,7 @@ public class PasswordStorage {
     public Password getNewPassword(@Nonnull PasswordRequest request) {
         synchronized (this) {
             final Password password = requestNewPassword(request);
-            _userAgentToPassword.put(request.getUserAgent(), password);
+            _userAgentToPassword.put(request, password);
             return password;
         }
     }

@@ -42,6 +42,8 @@ import java.util.List;
 import java.util.Set;
 
 import static java.awt.Color.red;
+import static java.awt.Font.*;
+import static java.awt.SystemColor.control;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -90,18 +92,24 @@ public class RequestMasterPasswordDialog extends ActivateEnabledDialog {
         text.setMargin(new Insets(0, 0, 0, 0));
         text.setContentType("text/html");
         text.setText("<html><body style='font-family: sans; font-size: 1em'>" + resources.getString("passwordRequestIntroduction") + "</body></html>");
-        text.setFont(new Font(Font.DIALOG, Font.PLAIN, 12));
-        text.setBackground(SystemColor.control);
+        text.setFont(new Font(DIALOG, PLAIN, 12));
+        text.setBackground(new Color(255, 255, 255, 0));
         text.setEditable(false);
         add(text, new CC().spanX(2).growX().minWidth("10px"));
     }
 
     private void createRequesterHint(@Nonnull Resources resources, @Nonnull PasswordRequest request) {
-        final String userAgent = request.getUserAgent();
         add(new JLabel(resources.getString("requestedBy") + ":"), new CC().alignX("right"));
-        final JTextField requestByField = new JTextField(userAgent != null ? userAgent : resources.getString("unknownRequester"));
+        final JTextPane requestByField = new JTextPane();
+        requestByField.setContentType("text/html");
+        requestByField.setFont(new Font(MONOSPACED, PLAIN, 12));
+        requestByField.setBackground(control);
+        requestByField.setText(request.formatRemoteAsHtml(resources));
         requestByField.setEditable(false);
-        add(requestByField, new CC().minWidth("40px"));
+        requestByField.setAutoscrolls(true);
+        requestByField.setBorder(new JTextField().getBorder());
+
+        add(requestByField, new CC().minWidth("40px").maxHeight("400px").growY());
     }
 
     private JPasswordField createPasswordField(@Nonnull Resources resources) {

@@ -62,7 +62,7 @@ public class Velma implements AutoCloseable {
         final int port = getPort(address);
         _passwordStorage = new PasswordStorage(resources, configuration);
         final BodyCreator bodyCreator = new BodyCreator(_passwordStorage);
-        final Handler handler = new RequestHandler(location, bodyCreator);
+        final Handler handler = new RequestHandler(location, bodyCreator, resources);
         final SocketConnector connector = createConnector(address, port);
 
         _server = createAndStartServer(handler, connector);

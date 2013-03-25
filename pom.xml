@@ -45,7 +45,7 @@
         <maven.rpm.install.dir>${basedir}/target</maven.rpm.install.dir>
         <maven.rpm.license>MPL2</maven.rpm.license>
 
-        <versions.org.echocat.jomon>1.1.0</versions.org.echocat.jomon>
+        <versions.org.echocat.jomon>1.2.10</versions.org.echocat.jomon>
         <versions.org.eclipse.jetty>8.1.7.v20120910</versions.org.eclipse.jetty>
     </properties>
 
@@ -59,6 +59,11 @@
         <dependency>
             <groupId>org.echocat.jomon.net</groupId>
             <artifactId>common</artifactId>
+            <version>${versions.org.echocat.jomon}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.echocat.jomon</groupId>
+            <artifactId>process</artifactId>
             <version>${versions.org.echocat.jomon}</version>
         </dependency>
 
