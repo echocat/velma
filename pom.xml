@@ -20,7 +20,7 @@
     <name>echocat Velma</name>
     <groupId>org.echocat</groupId>
     <artifactId>velma</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0</version>
     <url>https://velma.echocat.org</url>
     <description>Master-Password protected password safe for Maven.</description>
 
@@ -321,7 +321,7 @@
                                             <filemode>644</filemode>
                                             <username>root</username>
                                             <groupname>root</groupname>
-                                            <dependency></dependency>
+                                            <dependency />
                                         </mapping>
                                     </mappings>
                                     <preinstallScript>target/linux/files/control/preinst</preinstallScript>
@@ -546,7 +546,7 @@
         <connection>scm:git:git@github.com:echocat/velma.git</connection>
         <developerConnection>scm:git:git@github.com:echocat/velma.git</developerConnection>
         <url>https://github.com/echocat/velma</url>
-      <tag>HEAD</tag>
+      <tag>version-1.1.0</tag>
   </scm>
 
 </project>
