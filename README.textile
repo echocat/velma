@@ -14,6 +14,12 @@ h2. Download
 | "rpm":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].rpm | RedHat Linux, CentOS, Fedora, SuSE, ... | Generic |
 | "tar.gz":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].tar.gz | Generic | Generic |
 
+h2. Hint
+
+h3. Windows
+
+On 64bit Windows-Systems the x64 executable of velma is installed. This requires that the default Java is also x64.
+
 h2. Requirements
 
 Java 1.7 or newer: "Get the latest version.":http://java.com/download/index.jsp
