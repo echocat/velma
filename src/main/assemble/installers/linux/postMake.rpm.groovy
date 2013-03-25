@@ -14,5 +14,5 @@
 
 ant.copy(
     file: "${project.build.directory}/rpm/${project.artifactId}/RPMS/noarch/${project.artifactId}-${project.properties['rpm.version']}-${project.properties['rpm.release']}.noarch.rpm",
-    tofile: "${project.build.directory}/${project.artifactId}-${project.version}-distribution.rpm"
+    tofile: "${project.build.directory}/${project.artifactId}-${project.version}.rpm"
 );

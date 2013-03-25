@@ -31,6 +31,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Set;
 
 import static java.awt.SystemTray.getSystemTray;
 import static java.awt.SystemTray.isSupported;
@@ -87,15 +88,58 @@ public class Velma implements AutoCloseable {
                 menuItem(resources, "about", showAboutDialogListener(resources)),
                 menuItem(resources, "exit", exitApplicationListener())
             );
-            final TrayIcon trayIcon = new TrayIcon(resources.getIcon(16));
+            final Image icon = findBestMatchingIconBy(getSystemTray().getTrayIconSize(), resources);
+            final TrayIcon trayIcon = new TrayIcon(icon);
             trayIcon.setPopupMenu(popupMenu);
-            trayIcon.setImageAutoSize(true);
+            trayIcon.setImageAutoSize(false);
             trayIcon.setToolTip(resources.getApplicationName());
 
             getSystemTray().add(trayIcon);
         }
     }
-    
+
+    @Nonnull
+    protected Image findBestMatchingIconBy(@Nonnull Dimension trayIconSize, @Nonnull Resources resources) {
+        final int targetSize = getMidSizeOf(trayIconSize);
+        Image result = null;
+        for (Image icon : resources.getIcons()) {
+            if (result == null) {
+                result = icon;
+            } else {
+                final int oldDiff = getDiff(result, targetSize);
+                final int currentDiff = getDiff(icon, targetSize);
+                if (oldDiff > currentDiff) {
+                    result = icon;
+                }
+            }
+        }
+        if (result == null) {
+            throw new IllegalStateException("No icon found.");
+        }
+        return result;
+    }
+
+    @Nonnegative
+    protected int getDiff(@Nonnull Image of, @Nonnegative int toTargetSize) {
+        final int imageSize = of.getWidth(null);
+        return imageSize > toTargetSize ? imageSize - toTargetSize : toTargetSize - imageSize;
+    }
+
+    @Nonnegative
+    protected int getMidSizeOf(@Nonnull Dimension size) {
+        final double w = (int) size.getWidth();
+        final double h = (int) size.getHeight();
+        final double result;
+        if (w > h) {
+            result = ((w - h) / 2d) + w;
+        } else if (h > w) {
+            result = ((h - w) / 2d) + h;
+        } else {
+            result = h;
+        }
+        return (int) result;
+    }
+
     private void checkForConfiguredMasterPassword(@Nonnull Resources resources, @Nonnull Configuration configuration) {
         if (!configuration.hasMasterPassword()) {
             final SetMasterPasswordDialog setMasterPasswordDialog = new SetMasterPasswordDialog(resources, null, configuration);

@@ -1,0 +1,7 @@
+Package: @artifactId@
+Version: @version@
+Section: devel
+Priority: low
+Architecture: all
+Description: @description@
+Maintainer: @organization.name@

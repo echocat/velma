@@ -33,7 +33,7 @@
             <directory>${project.basedir}/src/main/distribution</directory>
             <outputDirectory>/</outputDirectory>
             <excludes>
-                <exclude>bin/velma</exclude>
+                <exclude>bin/${project.artifactId}</exclude>
             </excludes>
         </fileSet>
         <fileSet>
@@ -41,7 +41,7 @@
             <outputDirectory>/</outputDirectory>
             <fileMode>0755</fileMode>
             <includes>
-                <include>bin/velma</include>
+                <include>bin/${project.artifactId}</include>
             </includes>
         </fileSet>
     </fileSets>

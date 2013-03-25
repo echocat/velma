@@ -103,20 +103,20 @@ exeFilesDirectory.mkdirs();
 
 log.info("Prepare files in: ${filesDirectory}")
 ant.delete(dir: filesDirectory.getCanonicalPath(), quiet: "true");
-ant.untar(src: new File(buildDirectory, project.artifactId + "-" + project.version + "-distribution.tar.gz").getCanonicalPath(),
+ant.untar(src: new File(buildDirectory, project.artifactId + "-" + project.version + ".tar.gz").getCanonicalPath(),
         compression: "gzip",
         dest: filesDirectory.getCanonicalPath(),
         overwrite: "true") {
         patternset() {
-            exclude(name: "bin/velma*.exe*")
+            exclude(name: "bin/${project.artifactId}*.exe*")
         }};
 ant.delete(dir: exeFilesDirectory.getCanonicalPath(), quiet: "true");
-ant.untar(src: new File(buildDirectory, project.artifactId + "-" + project.version + "-distribution.tar.gz").getCanonicalPath(),
+ant.untar(src: new File(buildDirectory, project.artifactId + "-" + project.version + ".tar.gz").getCanonicalPath(),
         compression: "gzip",
         dest: exeFilesDirectory.getCanonicalPath(),
         overwrite: "true") {
         patternset() {
-            include(name: "bin/velma*.exe*")
+            include(name: "bin/${project.artifactId}*.exe*")
         }};
 
 log.info("Harvest files from: ${filesDirectory}")
@@ -127,10 +127,10 @@ execute((String[]) [
         "-cg", "DistributionFiles",
         "-dr", "INSTALLDIR",
         "-var", "var.files",
-        "-out", "${cacheDirectory}\\velma.files.wxs",
+        "-out", "${cacheDirectory}\\${project.artifactId}.files.wxs",
 ], baseDirectory);
 
-log.info("Compiling: ${baseDirectory}\\velma.wxs, ${cacheDirectory}\\velma.files.wxs")
+log.info("Compiling: ${baseDirectory}\\${project.artifactId}.wxs, ${cacheDirectory}\\${project.artifactId}.files.wxs")
 execute((String[]) [
         candle.getCanonicalPath(),
         "-nologo",
@@ -144,7 +144,7 @@ execute((String[]) [
         "-dproductVersion=${project.version}",
         "-dproductUrl=${project.url}",
         "-dproductDescription=${project.description}",
-        "${baseDirectory}\\velma.wxs", "${cacheDirectory}\\velma.files.wxs",
+        "${baseDirectory}\\${project.artifactId}.wxs", "${cacheDirectory}\\${project.artifactId}.files.wxs",
         "-out", "${cacheDirectory}\\"
 ], baseDirectory);
 
@@ -162,10 +162,10 @@ execute((String[]) [
         "-dproductVersion=${project.version}",
         "-dproductUrl=${project.url}",
         "-dproductDescription=${project.description}",
-        "-pdbout", "${cacheDirectory}\\velma.wixpdb",
+        "-pdbout", "${cacheDirectory}\\${project.artifactId}.wixpdb",
         "${cacheDirectory}\\*.wixobj",
-        "-out", "${buildDirectory}\\${project.artifactId}-${project.version}-distribution.msi"
+        "-out", "${buildDirectory}\\${project.artifactId}-${project.version}.msi"
 ], baseDirectory);
 
-log.info("MSI created: ${buildDirectory}\\velma.msi");
+log.info("MSI created: ${buildDirectory}\\${project.artifactId}-${project.version}.msi");
 log.info("");

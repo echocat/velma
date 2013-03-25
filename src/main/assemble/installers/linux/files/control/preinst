@@ -1,0 +1,5 @@
+#!/bin/sh
+mkdir -p "/opt/@organization.name@/@artifactId@/lib"
+mkdir -p "/opt/@organization.name@/@artifactId@/share/integration"
+mkdir -p "/opt/@organization.name@/@artifactId@/bin"
+mkdir -p "/opt/@organization.name@/@artifactId@/log"

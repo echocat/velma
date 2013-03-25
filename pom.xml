@@ -107,6 +107,26 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.codehaus.gmaven</groupId>
+                    <artifactId>gmaven-plugin</artifactId>
+                    <version>1.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.vafer</groupId>
+                    <artifactId>jdeb</artifactId>
+                    <version>1.0.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>rpm-maven-plugin</artifactId>
+                    <version>2.1-alpha-2</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>2.2</version>
@@ -169,6 +189,7 @@
                                 <descriptors>
                                     <descriptor>src/main/assemble/distribution.xml</descriptor>
                                 </descriptors>
+                                <appendAssemblyId>false</appendAssemblyId>
                             </configuration>
                         </execution>
                     </executions>
@@ -199,18 +220,20 @@
         </plugins>
     </build>
 
+
     <profiles>
         <profile>
-            <id>createRpmPackage</id>
+            <id>withRpm</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <file>
+                    <exists>/usr/bin/rpmbuild</exists>
+                </file>
             </activation>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>rpm-maven-plugin</artifactId>
-                        <version>2.1-alpha-2</version>
                         <executions>
                             <execution>
                                 <id>tagLinuxInstallers</id>
@@ -296,21 +319,9 @@
                                             <dependency></dependency>
                                         </mapping>
                                     </mappings>
-                                    <postinstallScriptlet>
-                                        <script>
-                                            cp "/opt/${project.organization.name}/${project.artifactId}/share/integration/profile.d.sh" /etc/profile.d/${project.organization.name}-${project.artifactId}.sh
-                                            chmod +x "/etc/profile.d/${project.organization.name}-${project.artifactId}.sh"
-                                            cp "/opt/${project.organization.name}/${project.artifactId}/share/integration/application.desktop" "/usr/share/applications/${project.organization.name}-${project.artifactId}.desktop"
-                                            cp "/opt/${project.organization.name}/${project.artifactId}/share/integration/application.desktop" "/etc/xdg/autostart/${project.organization.name}-${project.artifactId}.desktop"
-                                        </script>
-                                    </postinstallScriptlet>
-                                    <postremoveScriptlet>
-                                        <script>
-                                            rm -rf "/opt/${project.organization.name}/${project.artifactId}"
-                                            rm -f "/etc/profile.d/${project.organization.name}-${project.artifactId}.sh"
-                                            rm -f "/usr/share/applications/${project.organization.name}-${project.artifactId}.desktop"
-                                        </script>
-                                    </postremoveScriptlet>
+                                    <preinstallScript>target/linux/files/control/preinst</preinstallScript>
+                                    <postinstallScript>target/linux/files/control/postinst</postinstallScript>
+                                    <postremoveScript>target/linux/files/control/postrm</postremoveScript>
                                 </configuration>
                             </execution>
                         </executions>
@@ -318,7 +329,6 @@
                     <plugin>
                         <groupId>org.codehaus.gmaven</groupId>
                         <artifactId>gmaven-plugin</artifactId>
-                        <version>1.4</version>
                         <executions>
                             <execution>
                                 <id>preProcessRpmPackage</id>
@@ -342,11 +352,100 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attachRpmPackage</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.directory}/${project.build.finalName}.rpm</file>
+                                            <type>rpm</type>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
         <profile>
-            <id>createMsiPackage</id>
+            <id>withDeb</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>jdeb</artifactId>
+                        <groupId>org.vafer</groupId>
+                        <executions>
+                            <execution>
+                                <id>createDebPackage</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jdeb</goal>
+                                </goals>
+                                <configuration>
+                                    <deb>${project.build.directory}/${project.artifactId}-${project.version}.deb</deb>
+                                    <controlDir>${project.build.directory}/linux/files/control</controlDir>
+                                    <verbose>true</verbose>
+                                    <!--compression>bzip2</compression-->
+                                    <dataSet>
+                                        <data>
+                                            <src>${project.build.directory}/${project.build.finalName}.tar.gz</src>
+                                            <type>archive</type>
+                                            <mapper>
+                                                <type>perm</type>
+                                                <prefix>/opt/${project.organization.name}/${project.artifactId}</prefix>
+                                                <user>root</user>
+                                                <group>root</group>
+                                                <filemode>644</filemode>
+                                            </mapper>
+                                        </data>
+                                        <data>
+                                            <src>${project.build.directory}/linux/files/application.desktop</src>
+                                            <type>file</type>
+                                            <dst>/opt/${project.organization.name}/${project.artifactId}/share/integration/application.desktop</dst>
+                                        </data>
+                                        <data>
+                                            <src>${project.build.directory}/linux/files/profile.d.sh</src>
+                                            <type>file</type>
+                                            <dst>/opt/${project.organization.name}/${project.artifactId}/share/integration/profile.d.sh</dst>
+                                        </data>
+                                    </dataSet>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.gmaven</groupId>
+                        <artifactId>gmaven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>preProcessDebPackage</id>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <source>${basedir}/src/main/assemble/installers/linux/preMake.groovy</source>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>withMsi</id>
             <activation>
                 <os>
                     <family>windows</family>
@@ -357,7 +456,6 @@
                     <plugin>
                         <groupId>org.codehaus.gmaven</groupId>
                         <artifactId>gmaven-plugin</artifactId>
-                        <version>1.4</version>
                         <executions>
                             <execution>
                                 <id>createMsiPackage</id>
@@ -367,6 +465,27 @@
                                 <phase>package</phase>
                                 <configuration>
                                     <source>${basedir}/src/main/assemble/installers/windows/make.groovy</source>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attachMsiPackage</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.directory}/${project.build.finalName}.msi</file>
+                                            <type>msi</type>
+                                        </artifact>
+                                    </artifacts>
                                 </configuration>
                             </execution>
                         </executions>

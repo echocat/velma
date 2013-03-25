@@ -1,0 +1,4 @@
+#!/bin/sh
+rm -rf "/opt/@organization.name@/@artifactId@"
+rm -f "/etc/profile.d/@organization.name@-@artifactId@.sh"
+rm -f "/usr/share/applications/@organization.name@-@artifactId@.desktop"

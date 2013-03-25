@@ -1,0 +1,6 @@
+#!/bin/sh
+chmod +x "/opt/@organization.name@/@artifactId@/bin/velma"
+cp "/opt/@organization.name@/@artifactId@/share/integration/profile.d.sh" /etc/profile.d/@organization.name@-@artifactId@.sh
+chmod +x "/etc/profile.d/@organization.name@-@artifactId@.sh"
+cp "/opt/@organization.name@/@artifactId@/share/integration/application.desktop" "/usr/share/applications/@organization.name@-@artifactId@.desktop"
+cp "/opt/@organization.name@/@artifactId@/share/integration/application.desktop" "/etc/xdg/autostart/@organization.name@-@artifactId@.desktop"
