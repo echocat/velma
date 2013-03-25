@@ -248,7 +248,7 @@
                                 </goals>
                             </execution>
                             <execution>
-                                <id>createLinuxInstallers</id>
+                                <id>createRpmPackage</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>rpm</goal>
@@ -345,16 +345,6 @@
                                     <source>${basedir}/src/main/assemble/installers/linux/preMake.groovy</source>
                                 </configuration>
                             </execution>
-                            <execution>
-                                <id>postProcessRpmPackage</id>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <phase>package</phase>
-                                <configuration>
-                                    <source>${basedir}/src/main/assemble/installers/linux/postMake.rpm.groovy</source>
-                                </configuration>
-                            </execution>
                         </executions>
                     </plugin>
                     <plugin>
@@ -363,14 +353,15 @@
                         <executions>
                             <execution>
                                 <id>attachRpmPackage</id>
-                                <phase>package</phase>
+                                <phase>verify</phase>
                                 <goals>
                                     <goal>attach-artifact</goal>
                                 </goals>
                                 <configuration>
                                     <artifacts>
                                         <artifact>
-                                            <file>${project.build.directory}/${project.build.finalName}.rpm</file>
+                                            <!--suppress MavenModelInspection -->
+                                            <file>${project.build.directory}/rpm/${project.artifactId}/RPMS/noarch/${project.artifactId}-${rpm.version}-${rpm.release}.noarch.rpm</file>
                                             <type>rpm</type>
                                         </artifact>
                                     </artifacts>
@@ -480,7 +471,7 @@
                         <executions>
                             <execution>
                                 <id>attachMsiPackage</id>
-                                <phase>package</phase>
+                                <phase>verify</phase>
                                 <goals>
                                     <goal>attach-artifact</goal>
                                 </goals>
