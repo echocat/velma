@@ -4,31 +4,15 @@ h1. echocat Velma
 
 Velma solve this problem because it replaces the stored password on disk with a redirection to itself. In every moment if someone tries to access your passwords in @.m2/settings.xml@ Velma will recieve a request and will prompt you for the input of your Master-Password in a dedicated dialog.
 
-h1. Setup
+h1. Install
 
-h2. Unix like Systems
+h2. Download
 
-bc. # 1. Create a directory for velma
-mkdir -p ~/opt/velma
-# 2. Change into the new directory
-cd ~/opt/velma
-# 3. Download the latest release
-wget https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.tar.gz
-# 4. Extract the content 
-tar -xzf velma-*-distribution.tar.gz
-# 5. Run it
-~/opt/velma/bin/velma
-
-Hint: It is a good choice to add Velma to init scripts of your unix system to ensure that you never forget it. Velma have a maximum memory usage of 10M - no problem I hope.
-
-h2. Windows Systems
-
-# Download the "Latest zip":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE]-distribution.zip
-# Extract the content to @%USERPROFILE%\Program Files\velma@
-# Open @%USERPROFILE%\Program Files\velma\bin@ in the Explorer
-# Create a shortcut on Desktop, Taskbar or Startmenu for @velma.exe@ (for 32bit Windows) or for @velma64.exe@ (for 64bit Windows).
-
-Hint: It is a good choice to add Velma to _Startup_ of Windows to ensure that you never forget it. Velma have a maximum memory usage of 10M - no problem I hope.
+| *Format* | *Operating System* | *Architecture* |
+| "msi":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].deb | Windows | x86, x64 |
+| "deb":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].deb | Debian Linux, Ubuntu, ... | Generic |
+| "rpm":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].rpm | RedHat Linux, CentOS, Fedora, SuSE, ... | Generic |
+| "tar.gz":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].tar.gz | Generic | Generic |
 
 h2. Requirements
 
