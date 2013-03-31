@@ -142,7 +142,7 @@ public class Configuration {
 
     @Nonnull
     private File getConfigFile() {
-        return new File(System.getProperty("user.home"), ".m2/velma.properties");
+        return new File(System.getProperty("user.home"), ".velma/conf/velma.properties");
     }
 
 }

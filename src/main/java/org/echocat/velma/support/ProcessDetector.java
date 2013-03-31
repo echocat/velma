@@ -14,8 +14,8 @@
 
 package org.echocat.velma.support;
 
-import org.apache.commons.io.IOUtils;
 import org.echocat.jomon.process.ProcessRepository;
+import org.echocat.velma.support.ExtendedProcess.Impl;
 import org.hyperic.sigar.NetConnection;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
@@ -46,7 +46,7 @@ public class ProcessDetector {
     private static final ProcessRepository REPOSITORY = getInstance();
 
     @Nullable
-    public org.echocat.jomon.process.Process findProcessOn(@Nonnull String expectedLocalHostName, @Nonnegative int expectedLocalPort) {
+    public ExtendedProcess findProcessOn(@Nonnull String expectedLocalHostName, @Nonnegative int expectedLocalPort) {
         org.echocat.jomon.process.Process result;
         try {
             result = findProcessWithCheckedOn(expectedLocalHostName, expectedLocalPort);
@@ -56,7 +56,21 @@ public class ProcessDetector {
         } catch (Exception e) {
             throw new RuntimeException("Could not get process for " + expectedLocalHostName + ":" + expectedLocalPort + ".", e);
         }
-        return result;
+        return result != null ? transformIfPossible(result) : null;
+    }
+
+    @Nonnull
+    private ExtendedProcess transformIfPossible(@Nonnull org.echocat.jomon.process.Process original) {
+        boolean isJava;
+        String mainClass;
+        try {
+            mainClass = MainClassDiscovery.findMainClassOf(original);
+            isJava = true;
+        } catch (Exception ignored) {
+            isJava = false;
+            mainClass = null;
+        }
+        return new Impl(original, isJava, mainClass);
     }
 
     @Nullable

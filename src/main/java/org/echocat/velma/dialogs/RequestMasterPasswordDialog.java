@@ -129,14 +129,6 @@ public class RequestMasterPasswordDialog extends ActivateEnabledDialog {
                         if (index + 1 < _durationBox.getItemCount()) {
                             _durationBox.setSelectedIndex(index + 1);
                         }
-                    } else if (e.getKeyCode() == 36 || e.getKeyCode() == 33) {
-                        if (index > 0) {
-                            _durationBox.setSelectedIndex(0);
-                        }
-                    } else if (e.getKeyCode() == 35 || e.getKeyCode() == 34) {
-                        if (index + 1 < _durationBox.getItemCount()) {
-                            _durationBox.setSelectedIndex(_durationBox.getItemCount() - 1);
-                        }
                     }
                 }
             }

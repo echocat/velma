@@ -20,6 +20,9 @@ if [ -z "${VELMA_SKIP_RC}" ] ; then
     if [ -f "$HOME/.velmarc" ] ; then
         . "$HOME/.velmarc"
     fi
+    if [ -f "$HOME/.velma/conf/velmarc" ] ; then
+        . "$HOME/.velma/conf/velmarc"
+    fi
 fi
 
 # OS specific support.  $var _must_ be set to either true or false.
