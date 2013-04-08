@@ -34,3 +34,9 @@ ant.copy(
         filter(token: "organization.name", value: project.organization.name)
     }
 }
+
+ant.fixcrlf(
+    srcdir: "${filesDirectory}",
+    eol: "unix",
+    eof: "remove"
+)
