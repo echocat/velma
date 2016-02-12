@@ -49,8 +49,14 @@
         <module name="org.echocat.redprecursor.compilerplugin" />
         <module name="org.echocat.redprecursor.runtime" />
         <module name="org.echocat.redprecursor.sun" />
-        <module name="org.echocat.velma" />
         <module name="velma" />
+      </profile>
+      <profile default="false" name="Annotation profile for org.echocat.velma" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="org.echocat.velma" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -74,4 +80,3 @@
     <option name="MAXIMUM_HEAP_SIZE" value="256" />
   </component>
 </project>
-

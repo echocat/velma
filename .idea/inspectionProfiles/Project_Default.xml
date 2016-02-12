@@ -63,6 +63,7 @@
     </inspection_tool>
     <inspection_tool class="ConstantOnLHSOfComparison" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ConstructorCount" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoreDeprecatedConstructors" value="false" />
       <option name="m_limit" value="8" />
     </inspection_tool>
     <inspection_tool class="ContinueOrBreakFromFinallyBlock" enabled="true" level="ERROR" enabled_by_default="true" />
@@ -228,6 +229,7 @@
     <inspection_tool class="MethodCount" enabled="true" level="INFO" enabled_by_default="true">
       <option name="m_limit" value="30" />
       <option name="ignoreGettersAndSetters" value="false" />
+      <option name="ignoreOverridingMethods" value="false" />
     </inspection_tool>
     <inspection_tool class="MethodNamesDifferOnlyByCase" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodOverloadsParentMethod" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -359,7 +361,6 @@
       <option name="m_minLength" value="5" />
       <option name="m_maxLength" value="32" />
     </inspection_tool>
-    <inspection_tool class="SubstringZero" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SuspiciousMethodCalls" enabled="true" level="ERROR" enabled_by_default="true">
       <option name="REPORT_CONVERTIBLE_METHOD_CALLS" value="true" />
     </inspection_tool>
@@ -428,18 +429,15 @@
     <inspection_tool class="UseOfSunClasses" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="UtilityClassWithPublicConstructor" enabled="true" level="ERROR" enabled_by_default="true" />
     <inspection_tool class="UtilityClassWithoutPrivateConstructor" enabled="true" level="ERROR" enabled_by_default="true">
-      <option name="ignoreClassesWithOnlyMain" value="false" />
       <option name="ignorableAnnotations">
         <value />
       </option>
+      <option name="ignoreClassesWithOnlyMain" value="false" />
     </inspection_tool>
     <inspection_tool class="VtlFileReferencesInspection" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="VtlInterpolationsInspection" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="VtlReferencesInspection" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="VtlTypesInspection" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="W3CssValidation" enabled="false" level="WARNING" enabled_by_default="false">
-      <option name="myCssVersion" value="css3" />
-    </inspection_tool>
     <inspection_tool class="WeakerAccess" enabled="false" level="WARNING" enabled_by_default="false">
       <option name="SUGGEST_PACKAGE_LOCAL_FOR_MEMBERS" value="true" />
       <option name="SUGGEST_PACKAGE_LOCAL_FOR_TOP_CLASSES" value="true" />
@@ -447,5 +445,6 @@
     </inspection_tool>
     <inspection_tool class="WebProperties" enabled="false" level="ERROR" enabled_by_default="false" />
     <inspection_tool class="WhileCanBeForeach" enabled="true" level="INFO" enabled_by_default="true" />
+    <inspection_tool class="unusedMerged" />
   </profile>
 </component>

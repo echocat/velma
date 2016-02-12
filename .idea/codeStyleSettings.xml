@@ -25,7 +25,7 @@
         <option name="WRAP_COMMENTS" value="true" />
         <JSCodeStyleSettings>
           <option name="INDENT_PACKAGE_CHILDREN" value="1" />
-          <option name="SPACES_NEAR_TYPE" value="2" />
+          <option name="SPACE_AFTER_TYPE_COLON" value="true" />
         </JSCodeStyleSettings>
         <XML>
           <option name="XML_KEEP_BLANK_LINES" value="1" />
@@ -54,11 +54,9 @@
         </codeStyleSettings>
         <codeStyleSettings language="Groovy">
           <option name="SPACE_BEFORE_METHOD_PARENTHESES" value="true" />
-          <option name="WRAP_COMMENTS" value="true" />
           <option name="PARENT_SETTINGS_INSTALLED" value="true" />
         </codeStyleSettings>
         <codeStyleSettings language="JAVA">
-          <option name="WRAP_COMMENTS" value="true" />
           <option name="PARENT_SETTINGS_INSTALLED" value="true" />
           <indentOptions>
             <option name="CONTINUATION_INDENT_SIZE" value="4" />
@@ -79,4 +77,3 @@
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
   </component>
 </project>
-

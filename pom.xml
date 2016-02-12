@@ -45,7 +45,7 @@
         <maven.rpm.install.dir>${basedir}/target</maven.rpm.install.dir>
         <maven.rpm.license>MPL2</maven.rpm.license>
 
-        <versions.org.echocat.jomon>1.2.10</versions.org.echocat.jomon>
+        <versions.org.echocat.jomon>1.6.2</versions.org.echocat.jomon>
         <versions.org.eclipse.jetty>8.1.7.v20120910</versions.org.eclipse.jetty>
     </properties>
 
@@ -495,43 +495,6 @@
         <system>GitHub</system>
         <url>https://github.com/echocat/velma/issues</url>
     </issueManagement>
-
-    <distributionManagement>
-        <repository>
-            <id>echocat-velma-releases</id>
-            <url>dav:https://repo.echocat.org/velma-releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>echocat-velma-snapshots</id>
-            <url>dav:https://repo.echocat.org/velma-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>echocat</id>
-            <url>http://repo.echocat.org/all</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>echocat</id>
-            <url>http://repo.echocat.org/all</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 
     <scm>
         <connection>scm:git:git@github.com:echocat/velma.git</connection>
