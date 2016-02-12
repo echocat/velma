@@ -40,6 +40,7 @@
             <directory>${project.basedir}/src/main/distribution</directory>
             <outputDirectory>/</outputDirectory>
             <fileMode>0755</fileMode>
+            <lineEnding>unix</lineEnding>
             <includes>
                 <include>bin/${project.artifactId}</include>
             </includes>

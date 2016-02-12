@@ -2,18 +2,13 @@ h1. echocat Velma
 
 ...is a Master-Password protected password safe for your maven passwords. These passwords are normally stored in @~/.m2/settings.xml@ and could be protected by a master password in @~/.m2/settings-security.xml@. But this way is still dangerous because every person with access to your computer has access to your Master-Password.
 
-Velma solve this problem because it replaces the stored password on disk with a redirection to itself. In every moment if someone tries to access your passwords in @.m2/settings.xml@ Velma will recieve a request and will prompt you for the input of your Master-Password in a dedicated dialog.
+Velma solve this problem because it replaces the stored password on disk with a redirection to itself. In every moment if someone tries to access your passwords in @~/.m2/settings.xml@ Velma will recieve a request and will prompt you for the input of your Master-Password in a dedicated dialog.
 
 h1. Install
 
 h2. Download
 
-| *Format* | *Operating System* | *Architecture* |
-| "msi":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].msi | Windows | x86, x64 |
-| "deb":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].deb | Debian Linux, Ubuntu, ... | Generic |
-| "rpm":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].rpm | RedHat Linux, CentOS, Fedora, SuSE, ... | Generic |
-| "tar.gz":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].tar.gz | Generic | Generic |
-| -dmg- | "Help us to create package for Mac OSX!":mailto:contact@echocat.org | -Intel- |
+See: "Release page":https://github.com/echocat/velma/releases/latest
 
 h2. Hint
 
@@ -130,3 +125,4 @@ Velma now starts a little webserver that listen to @localhost:<port>@ and only a
 h1. License
 
 echocat Velma is licensed under "MPL 2.0":http://mozilla.org/MPL/2.0/.
+
