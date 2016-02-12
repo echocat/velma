@@ -126,6 +126,3 @@ h1. License
 
 echocat Velma is licensed under "MPL 2.0":http://mozilla.org/MPL/2.0/.
 
-h1. Powered by
-
-"!http://static-aws.ej-technologies.com/sfpXyrYGxXmDQGfXg8LcBwnjHrnQ37qMUP9geiqWmgP.png!":http://www.ej-technologies.com/products/install4j/overview.html
