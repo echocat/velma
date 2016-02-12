@@ -8,12 +8,7 @@ h1. Install
 
 h2. Download
 
-| *Format* | *Operating System* | *Architecture* |
-| "msi":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].msi | Windows | x86, x64 |
-| "deb":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].deb | Debian Linux, Ubuntu, ... | Generic |
-| "rpm":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].rpm | RedHat Linux, CentOS, Fedora, SuSE, ... | Generic |
-| "tar.gz":https://repo.echocat.org/velma-releases/org/echocat/velma/[RELEASE]/velma-[RELEASE].tar.gz | Generic | Generic |
-| -dmg- | "Help us to create package for Mac OSX!":mailto:contact@echocat.org | -Intel- |
+See: "Release page":https://github.com/echocat/velma/releases/latest
 
 h2. Hint
 
